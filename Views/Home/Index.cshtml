@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Prescription>
+
+@{
+    ViewData["Title"] = "Prescriptions";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3">Prescriptions</h1>
+    <a class="btn btn-primary" asp-controller="Prescription" asp-action="Create">+ Add New</a>
+</div>
+
+<table class="table table-hover table-bordered align-middle shadow-sm rounded">
+    <thead class="table-primary">
+        <tr>
+            <th>Medication Name</th>
+            <th>Fill Status</th>
+            <th>Cost</th>
+            <th>Request Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var p in Model)
+    {
+        <tr>
+            <td>@p.MedicationName</td>
+            <td><span class="badge bg-info text-dark">@p.FillStatus</span></td>
+            <td>@p.Cost.ToString("C")</td>
+            <td>@p.RequestTime.ToString("MM/dd/yyyy HH:mm")</td>
+            <td>
+                <a class="btn btn-sm btn-outline-primary"
+                   asp-controller="Prescription"
+                   asp-action="Edit"
+                   asp-route-id="@p.PrescriptionId"
+                   asp-route-slug="@p.MedicationName.ToLower().Replace(" ", "-")">Edit</a>
+
+                <a class="btn btn-sm btn-outline-danger"
+                   asp-controller="Prescription"
+                   asp-action="Delete"
+                   asp-route-id="@p.PrescriptionId"
+                   asp-route-slug="@p.MedicationName.ToLower().Replace(" ", "-")">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
